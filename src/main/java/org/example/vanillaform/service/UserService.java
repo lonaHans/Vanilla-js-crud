@@ -40,7 +40,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public List<UserResponse> getAllUserById(){
+    public List<UserResponse> getAllUsers(){
         return userRepository.findAll().stream().map(this::mapToResponse).toList();
     }
 
