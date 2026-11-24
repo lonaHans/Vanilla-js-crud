@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Person</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <form id="userForm">
+        <h2>Registration Form</h2>
+        <p>Enter your details below</p>
+
+        <label for="name">Name: </label><br>
+        <input type="text" id="name" name="name"><br>
+
+        <label for="email">Email: </label><br>
+        <input type="email" id="email" name="email"><br><br>
+
+        <input type="submit" value="SUBMIT">
+    </form>
+    <p id="message"></p>
+</div>
+
+<div>
+    <h2>Registered Users</h2>
+
+    <table border="1">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+
+        <tbody id="userTableBody">
+
+        </tbody>
+    </table>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
