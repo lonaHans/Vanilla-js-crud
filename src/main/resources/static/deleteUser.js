@@ -14,7 +14,7 @@ export async function deleteUser(id) {
 
     try {
 
-        const response = await fetch("/api/users/" + id, {
+        const response = await fetch("/api/user/" + id, {
 
             method: "DELETE"
 

@@ -3,67 +3,35 @@ import { editUser } from "./editUser.js";
 import { deleteUser } from "./deleteUser.js";
 import { showMessage } from "./messages.js";
 
-const API_URL = "/api/users";
+
+const API_URL = "/api/user";
 
 export async function getUsers() {
 
-    try {
+    const response = await fetch(API_URL);
 
-        const response = await fetch(API_URL);
+    const users = await response.json();
 
-        if (!response.ok) {
-            throw new Error("Failed to retrieve users");
-        }
+    const tableBody = document.getElementById("userTableBody");
 
-        const users = await response.json();
+    tableBody.innerHTML = "";
 
-        const tableBody = document.getElementById("userTableBody");
+    users.forEach(user => {
 
-        tableBody.innerHTML = "";
-
-        users.forEach(user => {
-
-            const row = document.createElement("tr");
-
-            row.innerHTML = `
+        const row = `
+            <tr>
                 <td>${user.id}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            `;
+                <td>${user.name}</td>
+                <td>${user.email}</td>
+                <td> <a href="registerUser.html?id=${user.id}">Edit</a> </td>
+            </tr>
+        `;
 
-            row.cells[1].textContent = user.name;
-            row.cells[2].textContent = user.email;
+        tableBody.innerHTML += row;
 
-
-            const editButton = document.createElement("button");
-
-            editButton.textContent = "Edit";
-
-            editButton.addEventListener("click", function() {
-                editUser(user);
-            });
-
-
-            const deleteButton = document.createElement("button");
-
-            deleteButton.textContent = "Delete";
-
-            deleteButton.addEventListener("click", function() {
-                deleteUser(user.id);
-            });
-
-            row.cells[3].appendChild(editButton);
-            row.cells[3].appendChild(deleteButton);
-
-            tableBody.appendChild(row);
-
-        });
-
-    } catch (error) {
-
-        showMessage(error.message, "red");
-
-    }
+    });
 
 }
+
+getUsers();
+

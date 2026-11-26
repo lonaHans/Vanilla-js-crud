@@ -1,58 +1,52 @@
 
-import { getUsers } from "./getUsers.js";
 import { showMessage } from "./messages.js";
 
 const userForm = document.getElementById("userForm");
 
-const API_URL = "/api/users";
+const API_URL = "/api/user";
 
-userForm.addEventListener("submit", async function(event) {
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
 
-    const id = document.getElementById("userId").value;
+if(!id){
 
-    if (id !== "") {
-        return;
-    }
+    userForm.addEventListener("submit", async function(event) {
 
-    event.preventDefault();
+        event.preventDefault();
 
-    const name = document.getElementById("name").value;
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
 
-    const email = document.getElementById("email").value;
+        const userData = {
+            name: name,
+            email: email
+        };
 
-    const userData = {
-        name: name,
-        email: email
-    };
+        try{
+            const response = await fetch(API_URL,{
+                method: "POST",
+                headers: {"Content-Type": "application/json" },
 
-    try {
+                body: JSON.stringify(userData)
+            });
 
-        const response = await fetch(API_URL, {
+            if(!response.ok){
+                throw new Error("Failed to register user");
+            }
 
-            method: "POST",
+            showMessage("User registered successfully!", "green");
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+            userForm.reset();
 
-            body: JSON.stringify(userData)
-
-        });
-
-        if (!response.ok) {
-            throw new Error("Failed to register user");
+            setTimeout(function (){
+                window.location.href = "viewUsers.html";
+            },1200);
         }
 
-        showMessage("User registered successfully!", "green");
+        catch(error){
+            showMessage(error.message,"red");
+        }
 
-        userForm.reset();
+    });
 
-        getUsers();
-
-    } catch (error) {
-
-        showMessage(error.message, "red");
-
-    }
-
-});
+}
